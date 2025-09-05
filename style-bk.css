@@ -1,0 +1,223 @@
+
+/*
+  Tokyo Night theme for DZSlides (style.css)
+  Drop this file in the same folder as your HTML and include it as the LAST stylesheet.
+  Works as a full replacement for both the "Your Style" and the "Default Style" blocks in the template.
+  Palette (Tokyo Night):
+    bg:        #1a1b26
+    surface:   #16161e
+    surface-2: #1f2335
+    text:      #c0caf5
+    muted:     #a9b1d6
+    dim:       #565f89
+    blue:      #7aa2f7
+    cyan:      #7dcfff
+    green:     #9ece6a
+    purple:    #bb9af7
+    red/pink:  #f7768e
+    yellow:    #e0af68
+    orange:    #ff9e64
+*/
+
+/* ------------------------------ */
+/* Variables & base reset         */
+/* ------------------------------ */
+:root {
+  --tn-bg: #1a1b26;
+  --tn-surface: #16161e;
+  --tn-surface-2: #1f2335;
+  --tn-text: #c0caf5;
+  --tn-muted: #a9b1d6;
+  --tn-dim: #565f89;
+  --tn-blue: #7aa2f7;
+  --tn-cyan: #7dcfff;
+  --tn-green: #9ece6a;
+  --tn-purple: #bb9af7;
+  --tn-red: #f7768e;
+  --tn-yellow: #e0af68;
+  --tn-orange: #ff9e64;
+  --tn-border: #2a2e43;
+  --tn-shadow: 0 10px 30px rgba(0,0,0,.35);
+  --tn-radius: 16px;
+  --tn-code-bg: #1f2335;
+  --tn-code-border: #2b3050;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; background: var(--tn-bg); color: var(--tn-text); overflow: hidden; }
+html.view { overflow: visible; }
+
+/* Recommended fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+/* ------------------------------ */
+/* Slide stage + overview layout  */
+/* ------------------------------ */
+body {
+  width: 800px; height: 600px;
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  overflow: hidden; display: none;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+body.loaded { display: block; }
+
+section {
+  position: absolute; pointer-events: none;
+  width: 100%; height: 100%;
+  background: linear-gradient(180deg, var(--tn-surface) 0%, var(--tn-surface-2) 100%);
+  color: var(--tn-text);
+  border-radius: var(--tn-radius);
+  box-shadow: var(--tn-shadow);
+  border: 1px solid var(--tn-border);
+  transition: left 400ms linear 0s, box-shadow .2s ease;
+}
+section[aria-selected] { pointer-events: auto; }
+
+/* Overview (press "o" or Esc in DZSlides) */
+.view body {
+  position: static; margin: 0; padding: 48px; width: 100%; height: 100%;
+  display: inline-block; overflow: visible hidden;
+  transform: none !important;
+  background: radial-gradient(1200px 800px at 20% 10%, #20243d 0%, #131523 60%, #0f1120 100%);
+}
+.view section {
+  pointer-events: auto; position: static;
+  width: 800px; height: 600px;
+  margin: 24px; float: left;
+  transform: scale(.4); transform-origin: top left;
+  border: 1px solid var(--tn-border);
+}
+.view section[aria-selected] { outline: 4px solid var(--tn-blue); outline-offset: -4px; }
+
+/* Horizontal flow (before/now/after) */
+@media screen {
+  section { left: -150%; }
+  section[aria-selected] { left: 0; }
+  section[aria-selected] ~ section { left: +150%; }
+}
+
+/* Print (one slide per page) */
+@media print {
+  html { background: white; }
+  body { overflow: visible; transform: none; position: static; }
+  section { transition: none; transform: none; position: static; page-break-inside: avoid; }
+  #progress-bar { display: none; }
+}
+
+/* ------------------------------ */
+/* Chrome: header/footer & pager  */
+/* ------------------------------ */
+header, footer {
+  position: absolute; width: 100%; text-align: right;
+  background: rgba(26, 27, 38, .6);
+  backdrop-filter: blur(6px);
+  color: var(--tn-muted);
+}
+header { top: 0; border-bottom: 1px solid var(--tn-border); }
+footer { bottom: 0; border-top: 1px solid var(--tn-border); padding-bottom: 8px; }
+
+section footer { position: static; text-align: right; padding: 10px 16px; background: transparent; color: var(--tn-muted); }
+
+/* Progress bar */
+#progress-bar {
+  position: absolute; bottom: 0; height: 4px; width: 0%;
+  background: linear-gradient(90deg, var(--tn-purple), var(--tn-blue));
+  box-shadow: 0 0 12px rgba(123, 164, 247, .5);
+  transition: width 400ms linear 0s;
+}
+.view #progress-bar { display: none; }
+
+/* Slide number in overview */
+.view section::after {
+  counter-increment: slideidx; content: counter(slideidx, decimal-leading-zero);
+  position: absolute; bottom: -64px; right: 24px; color: var(--tn-dim);
+  letter-spacing: .08em; font-weight: 600;
+}
+
+/* ------------------------------ */
+/* Typography                     */
+/* ------------------------------ */
+h1, h2, h3 { color: var(--tn-text); }
+
+h1 {
+  margin: 120px 0 30px; text-align: center; font-size: 5rem; line-height: 1.05;
+  letter-spacing: .5px; font-weight: 800;
+  text-shadow: 0 4px 20px rgba(0,0,0,.35);
+}
+
+h2 { text-align: center; font-size: 3.2rem; margin-top: 24px; font-weight: 800; }
+
+section > h3 {
+  margin: 50px 50px 40px; padding-bottom: 12px; font-size: 2rem; font-weight: 800;
+  border-bottom: 2px solid var(--tn-border);
+}
+
+p {
+  margin: 32px 75px 0; font-size: 1.8rem; line-height: 1.5; color: var(--tn-text);
+}
+
+ul, ol { margin: 28px 100px 0; font-size: 1.6rem; }
+li > ul, li > ol { margin: 10px 0 15px 36px; list-style-image: none; }
+
+/* Links */
+a { color: var(--tn-cyan); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Incremental items */
+.next:not([active]) { visibility: hidden; }
+mark.next:not([active]) { visibility: visible; background: none; color: inherit; }
+mark[active] { background: linear-gradient(transparent 60%, rgba(123,162,247,.35) 60%); color: var(--tn-text); padding: 0 .15em; border-radius: 4px; }
+
+/* Blockquote */
+blockquote {
+  height: 100%; padding: 50px; font-size: 2.4rem; line-height: 1.4;
+  color: var(--tn-text);
+  background: radial-gradient(1200px 600px at 0% 0%, #0e0f1a 0%, var(--tn-surface) 60%);
+  border-left: 6px solid var(--tn-purple);
+}
+blockquote:before { content: open-quote; color: var(--tn-purple); font-weight: 800; margin-right: 6px; }
+blockquote:after  { content: close-quote; color: var(--tn-purple); font-weight: 800; margin-left: 6px; }
+
+/* Code */
+pre, code {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+pre {
+  overflow: auto; font-size: 1rem; margin: 12px 75px; padding: 14px 18px;
+  background: var(--tn-code-bg); color: var(--tn-text);
+  border: 1px solid var(--tn-code-border); border-radius: 12px;
+}
+code { background: rgba(45, 52, 86, .6); padding: .15em .35em; border-radius: 6px; border: 1px solid rgba(70, 80, 120, .6); }
+
+/* Tables */
+table { margin: 18px auto 0; font-size: 1.4rem; text-align: center; border-collapse: collapse; color: var(--tn-text); }
+th, td { padding: 10px 14px; border: 1px solid var(--tn-border); }
+tr:nth-child(even) { background: rgba(32, 36, 61, .35); }
+
+/* Figures (full-bleed image/video) */
+figure { background: #000; width: 100%; height: 100%; position: relative; }
+figure > * { position: absolute; }
+figure > img, figure > video { width: 100%; height: 100%; object-fit: cover; }
+figcaption {
+  left: 0; right: 0; top: 0; padding: 18px 28px; font-size: 1.4rem; color: var(--tn-text);
+  background: linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,0));
+  text-shadow: 0 2px 12px rgba(0,0,0,.6);
+}
+
+/* Selection & focus */
+::selection { background: rgba(123,162,247,.35); color: var(--tn-text); }
+:focus-visible { outline: 3px solid var(--tn-cyan); outline-offset: 2px; }
+
+/* Small helpers */
+hr { border: none; height: 1px; background: var(--tn-border); margin: 24px 75px; }
+.small { font-size: .9em; color: var(--tn-muted); }
+.muted { color: var(--tn-muted); }
+.accent { color: var(--tn-blue); }
+.success { color: var(--tn-green); }
+.warn { color: var(--tn-yellow); }
+.danger { color: var(--tn-red); }
+
+/* Keep DZSlides video toggle behavior intact */
+/* (The JS toggles play/pause on spacebar; no CSS required here beyond layout) */

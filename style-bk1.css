@@ -1,0 +1,218 @@
+
+/* -----------------------------------------------------------
+   Tokyo Night theme for DZSlides
+   Works on top of the built-in "Default Style" in your HTML.
+   ----------------------------------------------------------- */
+
+:root{
+  /* Palette (Tokyo Night) */
+  --tn-bg:       #1a1b26; /* page background */
+  --tn-surface:  #24283b; /* slides background */
+  --tn-panel:    #16161e; /* headers/footers/figures */
+  --tn-border:   #2b3050;
+
+  --tn-text:     #c0caf5;
+  --tn-subtle:   #a9b1d6;
+  --tn-muted:    #9aa5ce;
+
+  --tn-blue:     #7aa2f7;
+  --tn-cyan:     #7dcfff;
+  --tn-magenta:  #bb9af7;
+  --tn-green:    #9ece6a;
+  --tn-yellow:   #e0af68;
+  --tn-orange:   #ff9e64;
+  --tn-red:      #f7768e;
+
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.03) inset;
+}
+
+/* Stage background */
+html,
+.view body{
+  background: var(--tn-bg);
+  color-scheme: dark;
+  counter-reset: slideidx;
+}
+
+/* Slide cards */
+body,
+.view section{
+  background: var(--tn-surface);
+  color: var(--tn-text);
+  border: 1px solid var(--tn-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* Headings (keeps your Oswald if you keep the <link> in HTML) */
+h1, h2, h3{
+  font-family: "Oswald", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  letter-spacing: .4px;
+  color: var(--tn-blue);
+}
+h1{
+  margin: 120px 0 30px 0;
+  text-align: center;
+  font-size: 5rem;
+}
+h2{ text-align:center; }
+section > h3{
+  margin: 50px 50px 40px 50px;
+  border-bottom: 1px solid var(--tn-border);
+}
+
+/* Body text */
+p{
+  margin: 75px 75px 0 75px;
+  font-size: 2.6rem;
+  line-height: 1.35;
+  color: var(--tn-text);
+}
+
+/* Lists */
+ul, ol{ margin: 40px 100px 0 100px; }
+li > ul, ol{
+  margin: 0 0 15px 50px;
+  list-style-image: none;
+}
+li{ padding: 4px 0; }
+
+/* Inline emphasis */
+mark{
+  background: rgba(122,162,247,.18);
+  color: var(--tn-text);
+  padding: .05em .25em;
+  border-radius: 6px;
+  border: 1px solid rgba(122,162,247,.25);
+}
+/* Keep your previous behavior: no pre-reveal highlight for mark.next */
+mark.next:not([active]){
+  visibility: visible;
+  background: transparent;
+  border-color: transparent;
+}
+
+/* Code blocks / preformatted */
+pre{
+  overflow: auto;
+  font-family: ui-monospace, "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 1.25rem;
+  margin: 0 75px;
+  padding: 14px 16px;
+  width: 80%;
+  border-radius: 10px;
+  border: 1px solid var(--tn-border);
+  background: var(--tn-panel);
+  color: var(--tn-subtle);
+}
+
+/* Tables */
+table{
+  margin: auto;
+  font-size: 2.2rem;
+  text-align: center;
+  border-collapse: collapse;
+  border: 1px solid var(--tn-border);
+  background: var(--tn-panel);
+}
+table th, table td{
+  padding: .4em .8em;
+  border: 1px solid var(--tn-border);
+}
+table th{ color: var(--tn-cyan); }
+
+/* Quotes */
+blockquote{
+  height: 100%;
+  background: var(--tn-panel);
+  color: var(--tn-cyan);
+  font-size: 3.4rem;
+  padding: 50px;
+  border-left: 6px solid var(--tn-magenta);
+}
+blockquote:before{ content: open-quote; color: var(--tn-magenta); }
+blockquote:after{ content: close-quote; color: var(--tn-magenta); }
+
+/* Header/Footer bars */
+header, footer{
+  background: var(--tn-panel);
+  color: var(--tn-muted);
+  border-color: var(--tn-border);
+  border-style: solid;
+}
+header{ border-bottom-width: 1px; }
+footer{
+  border-top-width: 1px;
+  padding-bottom: 4px; /* keep progress bar clear */
+}
+section footer{ padding: 10px; }
+
+/* Links */
+a{ color: var(--tn-cyan); text-decoration: none; }
+a:hover{ text-decoration: underline; }
+
+/* Figures (full-bleed media) */
+figure{
+  background: var(--tn-bg);
+  width: 100%;
+  height: 100%;
+}
+figure > *{ position: absolute; }
+figure > img, figure > video{ width: 100%; height: 100%; object-fit: cover; }
+figcaption{
+  margin: 70px;
+  font-size: 3rem;
+  color: var(--tn-text);
+  text-shadow: 0 2px 8px rgba(0,0,0,.6);
+}
+
+/* Slide numbers in .view mode */
+.view section:after{
+  counter-increment: slideidx;
+  content: counter(slideidx, decimal-leading-zero);
+  position: absolute;
+  bottom: -80px;
+  right: 100px;
+  color: #4b5377; /* muted counter */
+  font-weight: 600;
+}
+
+/* Selected slide outline in .view (thumbnail) mode */
+.view section[aria-selected]{
+  border: 2px solid var(--tn-cyan);
+  box-shadow: 0 0 0 2px rgba(125,207,255,.25), var(--shadow);
+}
+
+/* Progress bar */
+#progress-bar{
+  height: 4px;
+  background: linear-gradient(90deg, var(--tn-blue), var(--tn-magenta));
+  box-shadow: 0 -1px 0 rgba(0,0,0,.6) inset;
+  bottom: 0;
+  position: absolute;
+  transition: width 400ms linear 0s;
+}
+.view #progress-bar{ display: none; }
+
+/* Printing */
+@media print{
+  section{
+    transform: none !important;
+    position: static;
+    page-break-inside: avoid;
+    background: white;           /* nicer on printers */
+    color: black;
+    border: none;
+    box-shadow: none;
+  }
+  body{ overflow: visible; }
+  #progress-bar{ display: none; }
+}
+
+/* Optional: accent utilities */
+.text-blue{ color: var(--tn-blue) !important; }
+.text-cyan{ color: var(--tn-cyan) !important; }
+.text-magenta{ color: var(--tn-magenta) !important; }
+.text-green{ color: var(--tn-green) !important; }
